@@ -1,0 +1,10 @@
+django
+djangorestframework
+psycopg2-binary
+djangorestframework-simplejwt
+
+python-consul
+requests
+ultralytics
+opencv-python-headless
+mysqlclient

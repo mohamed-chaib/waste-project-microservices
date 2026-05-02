@@ -2,7 +2,7 @@ django
 djangorestframework
 psycopg2-binary
 djangorestframework-simplejwt
-
+python-dotenv
 python-consul
 requests
 ultralytics

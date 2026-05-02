@@ -12,46 +12,40 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
-import cloudinary
 from dotenv import load_dotenv
 
+load_dotenv()
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS") == "True"
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
+
+RABBITMQ_CONFIG = {
+    "HOST": os.getenv("RABBITMQ_HOST"),
+    "PORT": int(os.getenv("RABBITMQ_PORT")),
+    "USER": os.getenv("RABBITMQ_USER"),
+    "PASSWORD": os.getenv("RABBITMQ_PASSWORD"),
+    "QUEUE": os.getenv("RABBITMQ_QUEUE"),
+}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-
-
-load_dotenv(os.path.join(BASE_DIR, '.env'))
-
-
-#  CONSUL CONFIG
-# =========================
-CONSUL_HOST = os.getenv("CONSUL_HOST", "127.0.0.1")
-CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
-
-SERVICE_NAME = os.getenv("SERVICE_NAME", "ai-service")
-SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8001))
-
-
-
-# =========================
-#  DATABASE 
-# =========================
-DB_NAME = os.getenv("DB_NAME","ai_db")
-DB_USER = os.getenv("DB_USER","root")
-DB_PASSWORD = os.getenv("DB_PASSWORD","root")
-DB_HOST = os.getenv("DB_HOST", "ai-db")
-DB_PORT = os.getenv("DB_PORT", "3306")
-
-
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-87_riuoq&_n%r^%_0iu@4$9wq7wndlw=iq$5i^87rix^0qpwk-'
+SECRET_KEY = 'django-insecure-j+pyrb3_)mxzx_*a_kloig&-psj!7tt#pd4-0)9yauzwkvh&1^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,8 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ai',
-    'rest_framework',
+    'notification_app',
 ]
 
 MIDDLEWARE = [
@@ -105,18 +98,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-if DB_NAME:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_NAME,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-
+}
 
 
 # Password validation
@@ -154,5 +141,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")

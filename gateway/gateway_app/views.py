@@ -2,13 +2,13 @@ import requests
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .consul import get_service_url
-AI_SERVICE_URL = get_service_url("ai-service")+"/api/ai/upload/"
+# AI_SERVICE_URL = get_service_url("ai-service")+"/api/ai/upload/"
 AUTH_SERVICE_URL = get_service_url("auth-service")+"/api/auth/"
 RECOMMANDETION_SERVICE_URL = get_service_url("recommendation-service")+"/api/recommendations/"
 # AI ENDPOINTS
 @api_view(["GET"])
 def health(request):
-    return Response({"status": "ai ok"})
+    return Response({"status": "gateway ok"})
 
 
 

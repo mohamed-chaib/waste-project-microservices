@@ -4,3 +4,4 @@ psycopg2-binary
 djangorestframework-simplejwt
 python-consul
 requests
+python-dotenv

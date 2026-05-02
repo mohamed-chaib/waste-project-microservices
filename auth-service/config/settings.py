@@ -11,9 +11,41 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+from dotenv import load_dotenv
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+
+#  .env
+# =========================
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+
+
+# =========================
+#  CONSUL CONFIG
+# =========================
+CONSUL_HOST = os.getenv("CONSUL_HOST", "127.0.0.1")
+CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
+
+SERVICE_NAME = os.getenv("SERVICE_NAME", "auth-service")
+SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8002))
+
+
+
+# =========================
+#  DATABASE 
+# =========================
+DB_NAME = os.getenv("DB_NAME","auth_db")
+DB_USER = os.getenv("DB_USER","root")
+DB_PASSWORD = os.getenv("DB_PASSWORD","root")
+DB_HOST = os.getenv("DB_HOST", "auth-db")
+DB_PORT = os.getenv("DB_PORT", "3306")
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +57,7 @@ SECRET_KEY = 'django-insecure-8^v28k310916)i7g40^z2d^+%dx!@w#9ij%8w-%5t@ne+5y3qj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 AUTH_USER_MODEL = "auth_app.User"
 
 # Application definition
@@ -74,17 +106,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'auth_db',
-        'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
-        'PORT': '3306',
+if DB_NAME:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+        }
     }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

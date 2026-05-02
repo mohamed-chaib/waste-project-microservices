@@ -11,9 +11,22 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+from dotenv import load_dotenv
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# =========================
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# =========================
+#  CONSUL CONFIG
+# =========================
+CONSUL_HOST = os.getenv("CONSUL_HOST", "consul")
+CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
+
+SERVICE_NAME = os.getenv("SERVICE_NAME", "gateway-service")
+SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8004))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +38,7 @@ SECRET_KEY = 'django-insecure-2gwz*g92!o9)$1_@tc&=gipz5$tq5mad6se=p_1f3@y%!$9z3v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

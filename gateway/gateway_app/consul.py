@@ -1,6 +1,6 @@
 import requests
 
-CONSUL_URL = "http://127.0.0.1:8500"
+CONSUL_URL = "http://consul:8500"
 
 def get_service_url(service_name):
     response = requests.get(

@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from .publisher import publish_event
 
 from .serializers import RegisterSerializer
 from django.contrib.auth.models import User
@@ -16,7 +17,15 @@ def register(request):
 
     if serializer.is_valid():
         serializer.save()
+
+        
+        publish_event({
+        "event": "USER_REGISTERED",
+        "service": "auth-service",
+        "email": request.data.get("email")
+    })
         return Response({"message": "User created successfully"})
+    
 
     return Response(serializer.errors, status=400)
 

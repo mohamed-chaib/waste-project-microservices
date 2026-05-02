@@ -1,7 +1,7 @@
 django
 djangorestframework
 djangorestframework-simplejwt
-
+python-dotenv
 python-consul
 requests
 mysqlclient

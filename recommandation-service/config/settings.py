@@ -11,9 +11,32 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from dotenv import load_dotenv  
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# =========================
+#  CONSUL CONFIG
+# =========================
+CONSUL_HOST = os.getenv("CONSUL_HOST", "127.0.0.1")
+CONSUL_PORT = int(os.getenv("CONSUL_PORT", 8500))
+
+SERVICE_NAME = os.getenv("SERVICE_NAME", "recommendation-service")
+SERVICE_PORT = int(os.getenv("SERVICE_PORT", 8003))
+
+
+
+# =========================
+#  DATABASE 
+# =========================
+DB_NAME = os.getenv("DB_NAME","recommendation_db")
+DB_USER = os.getenv("DB_USER","root")
+DB_PASSWORD = os.getenv("DB_PASSWORD","root")
+DB_HOST = os.getenv("DB_HOST", "recommendation-db")
+DB_PORT = os.getenv("DB_PORT", "3306")
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +48,7 @@ SECRET_KEY = 'django-insecure-fm*5(_=13z%z*n@&dvgy0_bjzuq^6p-s=xiwr$swk%f-^+o8v-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -74,16 +97,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'recommendation_db',
-        'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
-        'PORT': '3306',
+if DB_NAME:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': DB_USER,
+            'PASSWORD': DB_PASSWORD,
+            'HOST': DB_HOST,
+            'PORT': DB_PORT,
+        }
     }
-}
 
 
 # Password validation

@@ -13,7 +13,8 @@ class JWTMiddleware:
         if request.path.startswith("/api/public/"):
             return self.get_response(request)
         if request.path.startswith("/api/auth/"):
-            print("================================================")
+            return self.get_response(request)
+        if request.path.startswith("/api/health/"):
             return self.get_response(request)
 
         auth_header = request.headers.get("Authorization")

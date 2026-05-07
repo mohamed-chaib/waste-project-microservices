@@ -2,8 +2,9 @@ from django.urls import path
 from .views import health,upload_and_predict
 
 urlpatterns = [
-    path("upload/", upload_and_predict),
     path('health/', health),
+
+    path("upload/", upload_and_predict),
 
 ]
 

@@ -23,7 +23,7 @@ def register(request):
         "event": "USER_REGISTERED",
         "service": "auth-service",
         "email": request.data.get("email")
-    })
+        })
         return Response({"message": "User created successfully"})
     
 

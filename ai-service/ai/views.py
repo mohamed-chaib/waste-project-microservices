@@ -9,7 +9,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from django.conf import settings
 from .service.inference import predict_image
-import cloudinary.uploader
+import cloudinary
 import requests
 from .models import Submission
 
@@ -47,6 +47,11 @@ def upload_image(request):
 @parser_classes([MultiPartParser])
 def upload_and_predict(request):
 
+    cloudinary.config(
+        cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key=os.getenv("CLOUDINARY_API_KEY"),
+        api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    )
 
     user_id = request.headers.get("X-User-Id")
     if not user_id:

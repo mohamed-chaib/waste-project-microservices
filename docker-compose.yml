@@ -47,6 +47,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+      start_period: 10s
 
   # =====================
   # AI DB
@@ -65,6 +66,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+      start_period: 10s
 
   # =====================
   # RECOMMENDATION DB
@@ -83,6 +85,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+      start_period: 10s
 
   # =====================
   # TRAEFIK
@@ -153,6 +156,43 @@ services:
     networks:
       - backend
 
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    environment:
+      CLOUDINARY_CLOUD_NAME: dsvodevga
+      CLOUDINARY_API_KEY: 168264423864379
+      CLOUDINARY_API_SECRET: edWMlvybwmZA0a3VKe5TDLpR6e4
+      DB_HOST: ai-db
+      DB_NAME: ai_db
+      DB_USER: root
+      DB_PASSWORD: root
+      CONSUL_HOST: consul
+    ports:
+      - "8001:8001"
+    depends_on:
+      ai-db:
+        condition: service_healthy
+      consul:
+        condition: service_started
+    networks:
+      - backend
+
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_QUEUE: notifications
+    ports:
+      - "8005:8005"
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    networks:
+      - backend
   # =====================
   # GATEWAY
   # =====================

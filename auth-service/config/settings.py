@@ -58,7 +58,7 @@ SECRET_KEY = 'django-insecure-8^v28k310916)i7g40^z2d^+%dx!@w#9ij%8w-%5t@ne+5y3qj
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-AUTH_USER_MODEL = "auth_app.User"
+AUTH_USER_MODEL = 'auth_app.User'
 
 # Application definition
 

@@ -5,6 +5,5 @@ djangorestframework-simplejwt
 python-dotenv
 python-consul
 requests
-ultralytics
 opencv-python-headless
-mysqlclient
+cloudinary
